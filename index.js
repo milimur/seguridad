@@ -15,9 +15,11 @@ const youtube = google.youtube({
 
 app.get("/search", async (req, res, next) => {
     try {
-        const searchQuery = req.query.search_query;
+        const searchQuery = req.query.search_query?.trim().toLowerCase();
+
+        // Validate the search query
         if (!searchQuery) {
-            return res.status(400).json({ error: 'El parámetro "search_query" es requerido.' });
+            return res.status(400).json({ error: 'El parámetro "search_query" es requerido y no puede estar vacío.' });
         }
         
         //Perform the search using the YouTube API from googleapis
