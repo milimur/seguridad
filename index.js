@@ -15,7 +15,7 @@ const youtube = google.youtube({
 
 app.get("/search", async (req, res, next) => {
     try {
-        const searchQuery = req.query.search_query?.trim().toLowerCase();
+        const searchQuery = req.query.search_query.trim().toLowerCase();
 
         // Validate the search query
         if (!searchQuery) {
