@@ -2,7 +2,7 @@ name: Continuos Integration
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "dev" ]
 
 jobs:
   node:
@@ -16,14 +16,14 @@ jobs:
       run: npm init
     - name: Testing
       run: npm run test
-  docker:
-    runs-on: ubuntu-latest
-    needs: node
-    steps:
-    - name: Cloning repo 
-      uses: actions/checkout@v4
-    - name: Building Docker image
-      run: docker build -t mja123/node-security:latest ../../Dockerfile
-    - name: Pushing Docker image
-      run: docker push mja123/node-security:latest
+  # docker:
+  #   runs-on: ubuntu-latest
+  #   needs: node
+  #   steps:
+  #   - name: Cloning repo 
+  #     uses: actions/checkout@v4
+  #   - name: Building Docker image
+  #     run: docker build -t mja123/node-security:latest ../../Dockerfile
+  #   - name: Pushing Docker image
+  #     run: docker push mja123/node-security:latest
 
