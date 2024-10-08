@@ -3,6 +3,7 @@ name: CI/CD
 on:
   push:
     branches: [ "dev" ]
+  workflow_dispatch:
 
 env:
   node_version: "18.20.4" 
@@ -36,6 +37,7 @@ jobs:
         echo current_tag=${{ steps.latest_tag.outputs.tag }}"
         new_tag=$(( current_tag + 1 ))
         echo "new_tag=$new_tag" >> $GITHUB_OUTPUTS
+
     - name: Building Docker image
       run: docker build -t mja123/node-security:${{ steps.increased_tag.outputs.new_tag }} \
         --build-arg TAG=${{ env.node_version }} PORT=${{ vars.NODE_PORT }} \
