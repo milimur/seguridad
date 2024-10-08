@@ -1,0 +1,45 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ "dev" ]
+
+env:
+  node_version: "18.20.4" 
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Cloning repo 
+      uses: actions/checkout@v4
+    - name: Setting up node
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ env.node_version }}
+    - name: Creating env file
+      run: echo "${{ secrets.ENV_VARIABLES }}" > .env
+    - name: Starting project 
+      run: npm install
+    - name: Testing
+      # run: npm run test
+      run: echo "Testing!"
+    - name: Getting latest tag
+      id: latest_tag
+      uses: jacobtomlinson/gha-get-docker-hub-tags@0.1.1
+      with:
+        org: "mja123"
+        repo: "node-security"
+    - name: Increasing tag
+      id: increased_tag
+      run: |
+        echo "new_tag=${{ steps.latest_tag.outputs.tag + 1}}"
+        echo "$new_tag"
+    - name: Building Docker image
+      run: docker build -t mja123/node-security:${{ steps.increased_tag.outputs.new_tag }} \
+        --build-arg TAG=${{ env.node_version }} PORT=${{ vars.NODE_PORT }} \
+        ../../Dockerfile
+    - name: Pushing Docker image
+      # run: docker push mja123/node-security:latest
+      run: docker image list
+

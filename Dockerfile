@@ -1,3 +1,6 @@
+ARG TAG="18.20.4"
+ARG PORT=3001
+
 FROM node:${TAG}-slim
 
 WORKDIR /code
