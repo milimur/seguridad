@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const { google } = require('googleapis');
 dotenv.config();
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3001;
 const apiKey = process.env.API_KEY;
 
 const youtube = google.youtube({
@@ -11,7 +11,7 @@ const youtube = google.youtube({
     auth: apiKey,
 });
 
-//use: http://localhost:3000/search?search_query=foo
+//use: http://localhost:$PORT/search?search_query=foo
 
 app.get("/search", async (req, res, next) => {
     try {
