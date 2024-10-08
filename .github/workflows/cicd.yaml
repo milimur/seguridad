@@ -39,7 +39,7 @@ jobs:
         new_tag=$(IFS='.'; echo "${current_tag[*]}")
         echo "new_tag=$new_tag">> $GITHUB_OUTPUT
     - name: Building Docker image
-      run: docker build -t mja123/node-security:${{ steps.increased_tag.outputs.new_tag }} --build-arg TAG="${{ env.node_version }}" PORT="${{ vars.NODE_PORT }}" .
+      run: docker build -t mja123/node-security:${{ steps.increased_tag.outputs.new_tag }} --build-arg TAG="${{ env.node_version }}" --build-arg PORT="${{ vars.NODE_PORT }}" .
     - name: Pushing Docker image
       # run: docker push mja123/node-security:latest
       run: docker image list
