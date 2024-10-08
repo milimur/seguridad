@@ -36,7 +36,7 @@ jobs:
       run: |
         IFS='.' read -r -a current_tag <<< ${{ steps.latest_tag.outputs.tag }}
         new_tag=$(IFS='.'; echo "${current_tag[*]}")
-        echo "new_tag=$new_tag">> $GITHUB_OUTPUTS
+        echo "new_tag=$new_tag">> $GITHUB_OUTPUT
     - name: Building Docker image
       run: docker build -t mja123/node-security:${{ steps.increased_tag.outputs.new_tag }} \
         --build-arg TAG=${{ env.node_version }} PORT=${{ vars.NODE_PORT }} \
