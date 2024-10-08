@@ -35,6 +35,7 @@ jobs:
       id: increased_tag
       run: |
         IFS='.' read -r -a current_tag <<< ${{ steps.latest_tag.outputs.tag }}
+        current_tag[2]=$(( current_tag[2] + 1 ))
         new_tag=$(IFS='.'; echo "${current_tag[*]}")
         echo "new_tag=$new_tag">> $GITHUB_OUTPUT
     - name: Building Docker image
