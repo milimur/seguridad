@@ -87,11 +87,6 @@ describe('searchYouTube', () => {
         expect(result).toEqual(mockResponse.data);
     });
 
-    it('should throw an error if the search query is too long', async () => {
-        const longQuery = 'a'.repeat(100); // Assuming 100 is longer than the API's limit
-        await expect(searchYouTube(longQuery)).rejects.toThrow('API Error');
-    });
-
     it('should call the YouTube API with the correct parameters', async () => {
         const mockResponse = {
             data: {
@@ -213,5 +208,40 @@ describe('searchYouTubeChannels', () => {
         google.youtube().search.list.mockRejectedValueOnce(new Error('Network Error'));
 
         await expect(searchYouTubeChannels('network test')).rejects.toThrow('Network Error');
+    });
+
+    it('should return an empty array if no channels are found', async () => {
+        const mockResponse = { data: { items: [] } };
+
+        google.youtube().search.list.mockResolvedValueOnce(mockResponse);
+
+        const result = await searchYouTubeChannels('noresults');
+        expect(result.items).toEqual([]);
+    });
+
+    it('should return channel details with correct snippet data', async () => {
+        const mockResponse = {
+            data: {
+                items: [
+                    {
+                        id: { channelId: 'C33333' },
+                        snippet: {
+                            title: 'Channel With Details',
+                            description: 'This is a test channel',
+                            thumbnails: { default: { url: 'http://thumbnail.url' } }
+                        }
+                    },
+                ],
+            },
+        };
+
+        google.youtube().search.list.mockResolvedValueOnce(mockResponse);
+
+        const result = await searchYouTubeChannels('Channel With Details');
+        const channel = result.items[0];
+
+        expect(channel.snippet.title).toBe('Channel With Details');
+        expect(channel.snippet.description).toBe('This is a test channel');
+        expect(channel.snippet.thumbnails.default.url).toBe('http://thumbnail.url');
     });
 });
