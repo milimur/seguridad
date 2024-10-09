@@ -5,16 +5,11 @@ const { google } = require('googleapis');
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3001;
 const apiKey = process.env.API_KEY;
 
 const youtube = google.youtube({
     version: "v3",
     auth: apiKey,
-});
-
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
 });
 
 // Search videos
@@ -103,4 +98,4 @@ app.get('/comments', async (req, res, next) => {
 });
 
 // Export the functions and app for testing
-module.exports = { app, searchYouTube, searchYouTubeChannels, getYouTubeComments};
+module.exports = { app, searchYouTube, searchYouTubeChannels, getYouTubeComments };
