@@ -66,5 +66,5 @@ jobs:
         ls
         terraform init
     - name: Terraform plan
-      working-directory
+      working-directory: infra
       run: terraform plan
