@@ -15,6 +15,8 @@ env:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.increased_tag.outputs.new_tag }}
     steps:
     - name: Cloning repo 
       uses: actions/checkout@v4
@@ -67,4 +69,4 @@ jobs:
         terraform init
     - name: Terraform plan
       working-directory: infra
-      run: terraform plan
+      run: terraform plan -var api_token=${{ secrets.API_KEY }} -var image_tag=${{ jobs.outputs.image_tag }}
