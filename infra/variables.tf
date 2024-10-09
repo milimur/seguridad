@@ -24,11 +24,13 @@ variable "docker_image" {
 
 variable "image_tag" {
   type        = string
+  default     = ""
   description = "Docker image tag"
 }
 
-variable api_token {
+variable "api_token" {
   type        = string
+  default     = ""
   description = "Api key to use in backend api"
-  sensitive = true
+  sensitive   = true
 }

@@ -6,9 +6,9 @@ resource "aws_instance" "ec2_instance" {
   key_name                    = var.key_name
   vpc_security_group_ids      = [aws_security_group.security_groups.id]
   user_data = templatefile("./scripts/user_data.sh.tpl", {
-    port  = var.backend_port,
-    image = var.docker_image,
-    tag   = var.image_tag,
+    port      = var.backend_port,
+    image     = var.docker_image,
+    tag       = var.image_tag,
     api_token = var.api_token
   })
 
