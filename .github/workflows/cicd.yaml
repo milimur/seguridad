@@ -62,11 +62,11 @@ jobs:
       with:
         terraform_version: 1.9.7
     - name: Terraform init
-      id: init
       working-directory: infra
-      run: |
-        ls
-        terraform init
+      run: terraform init
+    - name: Terraform destroy
+      working-directory: infra
+      run: terraform destroy --auto-approve
     - name: Terraform plan
       working-directory: infra
-      run: terraform plan -var api_token=${{ secrets.API_KEY }} -var image_tag=${{ needs.ci.outputs.image_tag }}
+      run: terraform apply --auto-approve -var api_token=${{ secrets.API_KEY }} -var image_tag=${{ needs.ci.outputs.image_tag }}
