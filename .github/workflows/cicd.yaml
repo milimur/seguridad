@@ -56,16 +56,15 @@ jobs:
     - name: Cloning repo 
       uses: actions/checkout@v4
     - name: Moving to infra folder
-      run: |
-        ls
-        cd infra
-        ls
+      run: cd infra
     - name: Setup Terraform with specified version on the runner
       uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.9.7
     - name: Terraform init
       id: init
-      run: terraform init
+      run: |
+        ls
+        terraform init
     - name: Terraform plan
       run: terraform plan
