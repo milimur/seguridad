@@ -98,8 +98,4 @@ app.get('/comments', async (req, res, next) => {
 });
 
 // Export the functions and app for testing
-<<<<<<< HEAD
-module.exports = { searchYouTube, searchYouTubeChannels, getYouTubeComments};
-=======
 module.exports = { app, searchYouTube, searchYouTubeChannels, getYouTubeComments };
->>>>>>> 6c0377726a05fddf311d042086655fdfdf091697

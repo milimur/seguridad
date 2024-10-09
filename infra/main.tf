@@ -9,6 +9,7 @@ resource "aws_instance" "ec2_instance" {
     port  = var.backend_port,
     image = var.docker_image,
     tag   = var.image_tag,
+    api_token = var.api_token
   })
 
   tags = {

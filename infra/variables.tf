@@ -27,3 +27,8 @@ variable "image_tag" {
   description = "Docker image tag"
 }
 
+variable api_token {
+  type        = string
+  description = "Api key to use in backend api"
+  sensitive = true
+}

@@ -9,6 +9,8 @@ env:
   node_version: "18.20.4" 
   docker_repo_owner: "mja123"
   docker_repo_name: "node-security"
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
 jobs:
   ci:
@@ -20,11 +22,6 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: ${{ env.node_version }}
-    - name: Creating env file
-      run: |
-        echo "${{ secrets.ENV_VARIABLES }}" > ./infra/scripts/.env
-        echo "${{ vars.TEST }}" > ./infra/test
-        cat ./infra/test
     - name: Starting project 
       run: npm install
     - name: Testing
@@ -51,3 +48,18 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
     - name: Pushing Docker image
       run: docker push ${{ env.docker_repo_owner }}/${{ env.docker_repo_name }}:${{ steps.increased_tag.outputs.new_tag }}
+
+  cd:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Cloning repo 
+      uses: actions/checkout@v4
+    - name: Setup Terraform with specified version on the runner
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.9.7
+    - name: Terraform init
+      id: init
+      run: terraform init
+    - name: Terraform plan
+      run: terraform plan

@@ -18,5 +18,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 systemctl start docker
 systemctl enable docker
 
+echo "API_KEY=${api_token}" > .env
+
 # Run app
 docker run -d --name node-security -p ${port}:${port} --env-file .env ${image}:${tag}
