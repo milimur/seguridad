@@ -13,6 +13,10 @@ const youtube = google.youtube({
     auth: apiKey,
 });
 
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
+
 // Search videos
 async function searchYouTube(searchQuery) {
     const response = await youtube.search.list({
