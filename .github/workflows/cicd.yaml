@@ -21,7 +21,10 @@ jobs:
       with:
         node-version: ${{ env.node_version }}
     - name: Creating env file
-      run: echo "${{ secrets.ENV_VARIABLES }}" > .env
+      run: |
+        echo "${{ secrets.ENV_VARIABLES }}" > ./infra/scripts/.env
+        echo "${{ vars.TEST }}" > ./infra/test
+        cat ./infra/test
     - name: Starting project 
       run: npm install
     - name: Testing

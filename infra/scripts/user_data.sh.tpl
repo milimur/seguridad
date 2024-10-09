@@ -19,4 +19,4 @@ systemctl start docker
 systemctl enable docker
 
 # Run app
-docker run -d --name node-security -p ${port}:${port} ${image}:${tag}
+docker run -d --name node-security -p ${port}:${port} --env-file .env ${image}:${tag}
