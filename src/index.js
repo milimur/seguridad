@@ -71,12 +71,17 @@ app.get("/channels", async (req, res, next) => {
     }
 });
 
-// Export the functions and app for testing
-module.exports = { app, searchYouTube, searchYouTubeChannels };
+async function getYouTubeComments(videoId) {
+    const response = await youtube.commentThreads.list({
+        part: 'snippet,replies',
+        videoId: videoId,
+        maxResults: 5,
+    });
+    return response.data;
+}
 
-/*
-//http://localhost:3000/comments?videoId=HL3oCZXFoVs
-app.get("/comments", async (req, res, next) => {
+// Define the /comments route
+app.get('/comments', async (req, res, next) => {
     try {
         const videoId = req.query.videoId?.trim();
 
@@ -85,19 +90,13 @@ app.get("/comments", async (req, res, next) => {
             return res.status(400).json({ error: 'El parámetro "videoId" es requerido y no puede estar vacío.' });
         }
 
-        // Perform the API call to retrieve comment threads
-        const response = await youtube.commentThreads.list({
-            part: "snippet,replies", 
-            videoId: videoId,  
-            maxResults: 5,  
-        });
-
-        res.json(response.data);
+        // Call the YouTube comments function
+        const data = await getYouTubeComments(videoId);
+        res.json(data);
     } catch (err) {
         next(err);
     }
 });
 
-app.listen(port, () => {
-    console.log(`App escuchando en http://localhost:${port}`);
-});*/
+// Export the functions and app for testing
+module.exports = { app, searchYouTube, searchYouTubeChannels, getYouTubeComments};
