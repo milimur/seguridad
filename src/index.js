@@ -23,6 +23,10 @@ async function searchYouTube(searchQuery) {
     return response.data;
 }
 
+app.get("/", async (req, res, next) => {
+    res.json({"message": "Demo!"})
+})
+
 // Define the /search route
 app.get("/search", async (req, res, next) => {
     try {
