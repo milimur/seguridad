@@ -69,4 +69,4 @@ jobs:
         terraform init
     - name: Terraform plan
       working-directory: infra
-      run: terraform plan -var api_token=${{ secrets.API_KEY }} -var image_tag=${{ jobs.outputs.image_tag }}
+      run: terraform plan -var api_token=${{ secrets.API_KEY }} -var image_tag=${{ needs.ci.outputs.image_tag }}
